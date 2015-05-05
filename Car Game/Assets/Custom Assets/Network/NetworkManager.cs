@@ -5,7 +5,7 @@ public class NetworkManager : MonoBehaviour {
 	const string VERSION = "v1.0";
 	public string roomName = "CarGame";
 	public string playerPrefabName = "Gun Car";
-	public Transform spawnPoint;
+	public Transform [] spawnPoints;
 	
 	// Use this for initialization
 	void Start () {
@@ -20,9 +20,10 @@ public class NetworkManager : MonoBehaviour {
 	}
 	
 	void OnJoinedRoom(){
+		int index = Random.Range( 0, spawnPoints.Length );
 		PhotonNetwork.Instantiate (playerPrefabName, 
-		                           spawnPoint.position,
-		                           spawnPoint.rotation,
+		                           spawnPoints[index].position,
+		                           spawnPoints[index].rotation,
 		                           0);
 		
 	}

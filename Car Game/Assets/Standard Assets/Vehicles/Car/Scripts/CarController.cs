@@ -236,14 +236,13 @@ namespace UnityStandardAssets.Vehicles.Car
 
         private void SteerHelper()
         {
-            for (int i = 0; i < 4; i++)
-            {
-                WheelHit wheelhit;
-                m_WheelColliders[i].GetGroundHit(out wheelhit);
-                if (wheelhit.normal == Vector3.zero)
-                    return; // wheels arent on the ground so dont realign the rigidbody velocity
-            }
-
+            for (int i = 0; i < 4; i++) {
+				WheelHit wheelhit;
+				m_WheelColliders [i].GetGroundHit (out wheelhit);
+				if (wheelhit.normal == Vector3.zero) {
+					return; // wheels arent on the ground so dont realign the rigidbody velocity
+				}
+			}
             // this if is needed to avoid gimbal lock problems that will make the car suddenly shift direction
             if (Mathf.Abs(m_OldRotation - transform.eulerAngles.y) < 10f)
             {
