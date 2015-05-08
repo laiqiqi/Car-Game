@@ -8,7 +8,7 @@ using UnityStandardAssets.Vehicles.Car;
 public class CarUserControl : Photon.MonoBehaviour
     {
         private CarController m_Car; // the car controller we want to use
-
+		public Vector3 eulerAngleVelocity;
 
         private void Awake()
         {
@@ -29,10 +29,14 @@ public class CarUserControl : Photon.MonoBehaviour
 #else
             m_Car.Move(h, v, v, 0f);
 #endif
+			if (Input.GetKey(KeyCode.E)) { 
+				Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.deltaTime);
+				transform.GetComponent<Rigidbody>().MoveRotation(transform.GetComponent<Rigidbody>().rotation * deltaRotation);
 
 			}
         
     }
 
 
+}
 }
