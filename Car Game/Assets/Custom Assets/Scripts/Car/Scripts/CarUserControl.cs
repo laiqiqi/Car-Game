@@ -9,7 +9,7 @@ public class CarUserControl : Photon.MonoBehaviour
     {
         private CarController m_Car; // the car controller we want to use
 		public Vector3 eulerAngleVelocity;
-
+		
         private void Awake()
         {
             // get the car controller
@@ -34,6 +34,7 @@ public class CarUserControl : Photon.MonoBehaviour
 				transform.GetComponent<Rigidbody>().MoveRotation(transform.GetComponent<Rigidbody>().rotation * deltaRotation);
 
 			}
+
         
     }
 

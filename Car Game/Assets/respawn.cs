@@ -14,23 +14,6 @@ public class respawn : MonoBehaviour {
 			collision.transform.root.transform.position = spawnPoints [index].position;
 			collision.transform.root.transform.rotation = spawnPoints [index].rotation;
 			collision.transform.root.transform.GetComponent<Rigidbody> ().velocity = Vector3.zero;
-			if (ControlsMenu.transform.FindChild ("Life3").gameObject.active) {
-			ControlsMenu.transform.FindChild ("Life3").gameObject.active = false;
-			return;
+			
 		}
-		else {
-			if (ControlsMenu.transform.FindChild ("Life2").gameObject.active) {
-				ControlsMenu.transform.FindChild ("Life2").gameObject.active = false;
-				return;
-			}
-		
-		else{
-			ControlsMenu.transform.FindChild ("Life1").gameObject.active = false;
-			return;
-
-		}
-
-		}
-			}
-	
 }
