@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class FiringMechanism : MonoBehaviour {
 	
-	public Transform projectileSpawnPosition;
+	public List<Transform> projectileSpawnPositions = new List<Transform>();
 	public GameObject projectileToFire;
 	public float reloadsPerSecond;
 	public int maxRoundsChambered;
@@ -25,7 +25,7 @@ public class FiringMechanism : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)) {
 			if (roundsChambered > 0) {
 				print (reloadRate);
-				FireProjectile();
+				FireProjectile(projectileSpawnPositions[0]);
 			}
 		}
 	}
@@ -44,8 +44,8 @@ public class FiringMechanism : MonoBehaviour {
 		reloadRate = 1F / reloadsPerSecond;
 	}
 
-	void FireProjectile () {
-		//Instantiate (projectileToFire, projectileSpawnPosition.position, Quaternion.identity);
+	void FireProjectile (Transform spawnPosition) {
+		Instantiate (projectileToFire, spawnPosition.position, Quaternion.identity);
 		roundsChambered --;
 		print (roundsChambered + "fire");
 	}
