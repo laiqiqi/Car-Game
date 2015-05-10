@@ -4,6 +4,7 @@ using System.Linq;
 
 public class ScoreManager : MonoBehaviour {
 
+	//initialize a dictionary for player scores
 	Dictionary<string,Dictionary<string,int>> playerScores;
 
 

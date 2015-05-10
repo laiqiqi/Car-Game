@@ -660,6 +660,7 @@ public class PhotonView : Photon.MonoBehaviour
 	void GitParent(string playerName){
 		Debug.Log ("RPC Test");
 		this.gameObject.transform.parent = GameObject.Find ("ScoreBoard(Clone)/Entries").transform;
+		Debug.Log (this.gameObject.transform.parent);
 		this.gameObject.name = playerName;
 		this.gameObject.transform.FindChild ("Username").GetComponent<Text> ().text = playerName;
 	}

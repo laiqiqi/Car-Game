@@ -11,11 +11,9 @@ public class NetworkManager : MonoBehaviour {
 	public Transform [] spawnPoints;
 	public GameObject TimeLimit;
 	ScoreManager scoremanager;
-	private PhotonView MyPhotonView;
-	menuScript MS;
 	respawn Respawn;
 	GameObject scoreBoard;
-
+	public GameObject StartMenu;
 	// Use this for initialization
 	
 	void OnJoinedLobby(){
@@ -24,40 +22,61 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void OnCreatedRoom(){
+		// when we create the room, instantiate a scoreboard. 
 		GameObject scoreBoard = (GameObject)PhotonNetwork.Instantiate (scoreBoardPrefabName,
 		                                                    this.transform.position,
 		                                                    Quaternion.identity,
 		                                                    0);
+		//attach scoreboard to menu script 
+		
+		StartMenu.GetComponent<menuScript> ().ScoreBoard = scoreBoard;
 
 	}
 
 	void OnJoinedRoom(){
+		// when someone joins the room...
+
+
+
+
+		// identify the ScoreManager script and the Entries gameobject in the ScoreBoard
 		scoremanager = GameObject.FindObjectOfType<ScoreManager> ();
+		GameObject entries = GameObject.Find ("ScoreBoard(Clone)/Entries");
+
+		//attach entries object to respawn script
+		Respawn = GameObject.FindObjectOfType<respawn> ();
+		Respawn.Entries = entries;
+
+
+		// spawn the car at some random spawnpoint and change its name to the player's name
 		int index = Random.Range( 0, spawnPoints.Length );
 		GameObject car = PhotonNetwork.Instantiate (playerPrefabName, 
 		                           spawnPoints[index].position,
 		                           spawnPoints[index].rotation,
 		                           0);
-		PhotonView carPhotonView = car.GetComponent<PhotonView> ();
-		carPhotonView.RPC("ChangeCarName",PhotonTargets.AllBuffered,playerName);
-	
-		GameObject entries = GameObject.Find ("ScoreBoard(Clone)/Entries");
+		car.name = playerName;
 
-		Respawn = GameObject.FindObjectOfType<respawn> ();
-		Respawn.Entries = entries;
 
-		MS = GameObject.FindObjectOfType<menuScript>();
-		MS.ScoreBoard = scoreBoard;
-
-		GameObject entry = (GameObject)PhotonNetwork.Instantiate (entryPrefabName,
-		                                                          this.transform.position,
+		// instantiate an entry in the scoreboard and move it to the child of Entries, naming it the player's name
+		GameObject entry = PhotonNetwork.Instantiate (entryPrefabName,
+		                                                        	 Vector3.zero,
 		                                                          Quaternion.identity,
 		                                                          0);
+		scoremanager.SetScore (playerName, "Falls", 0);
+		scoremanager.SetScore(playerName, "Bumps", 0);
+		Debug.Log (scoremanager.GetScore(playerName, "Bumps"));
+		entry.transform.SetParent(entries.transform);
 
-		PhotonView myPhotonView = entry.GetComponent<PhotonView> ();
-		myPhotonView.RPC("GitParent",PhotonTargets.AllBuffered,playerName);
-		return;
+		entry.name = playerName;
+		entry.transform.FindChild ("Username").GetComponent<Text> ().text = playerName;
+		entry.transform.FindChild ("Bumps").GetComponent<Text> ().text = "0";
+		entry.transform.FindChild ("Falls").GetComponent<Text> ().text = "0";
 
+
+
+	
+
+		//activate the timer
 		TimeLimit.active = true;
 	}
 
