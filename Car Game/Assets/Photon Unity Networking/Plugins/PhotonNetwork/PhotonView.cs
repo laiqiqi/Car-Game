@@ -674,14 +674,13 @@ public class PhotonView : Photon.MonoBehaviour
 
 	[RPC]
 	void UpdateScoreBoard(string scoremanager){
-		ScoreManager SM = this.GetComponent (scoremanager) as ScoreManager;
+		ScoreManager SM = GetComponent<ScoreManager>();
 		string[] names = SM.GetPlayerNames ();
 		foreach(string name in names) {
 			if (transform.FindChild (name) != null){
-				GameObject go = transform.FindChild(name).gameObject;
-				go.transform.Find ("Username").GetComponent<Text>().text = name;
-				go.transform.Find ("Bumps").GetComponent<Text>().text = SM.GetScore (name,"Bumps").ToString();
-				go.transform.Find ("Falls").GetComponent<Text>().text = SM.GetScore (name,"Falls").ToString();
+				Transform t = transform.FindChild(name).gameObject.transform;
+				t.Find ("Bumps").GetComponent<Text>().text = SM.GetScore (name,"Bumps").ToString();
+				t.Find ("Falls").GetComponent<Text>().text = SM.GetScore (name,"Falls").ToString();
 			}
 			else{
 				continue;
