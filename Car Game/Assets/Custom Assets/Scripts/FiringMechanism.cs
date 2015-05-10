@@ -45,7 +45,7 @@ public class FiringMechanism : MonoBehaviour {
 	}
 
 	void FireProjectile (Transform spawnPosition) {
-		Instantiate (projectileToFire, spawnPosition.position, Quaternion.identity);
+		Instantiate (projectileToFire, spawnPosition.position, spawnPosition.rotation);
 		roundsChambered --;
 		print (roundsChambered + "fire");
 	}

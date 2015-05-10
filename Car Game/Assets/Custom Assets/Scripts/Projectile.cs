@@ -23,6 +23,6 @@ public class Projectile : MonoBehaviour {
 	}
 
 	private void Move () {
-		GetComponent<Rigidbody>().AddForce(Vector3.forward * initialVelocity);
+		GetComponent<Rigidbody>().AddForce(transform.forward * initialVelocity);
 	}
 }
