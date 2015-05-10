@@ -4,7 +4,7 @@ using System.Collections;
 public class Rocket : Projectile {
 	
 	protected override void Start () {
-		initialVelocity = 2500;
+		initialVelocity = 2000;
 		lifespan = 1;
 
 		base.Start();
