@@ -13,7 +13,7 @@ using UnityEngine;
 using System.Reflection;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
-
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,7 +22,6 @@ using UnityEditor;
 public enum ViewSynchronization { Off, ReliableDeltaCompressed, Unreliable, UnreliableOnChange }
 public enum OnSerializeTransform { OnlyPosition, OnlyRotation, OnlyScale, PositionAndRotation, All }
 public enum OnSerializeRigidBody { OnlyVelocity, OnlyAngularVelocity, All }
-
 /// <summary>
 /// Options to define how Ownership Transfer is handled per PhotonView.
 /// </summary>
@@ -656,4 +655,39 @@ public class PhotonView : Photon.MonoBehaviour
     {
         return string.Format("View ({3}){0} on {1} {2}", this.viewID, (this.gameObject != null) ? this.gameObject.name : "GO==null", (this.isSceneView) ? "(scene)" : string.Empty, this.prefix);
     }
+
+	[RPC]
+	void GitParent(string playerName){
+		Debug.Log ("RPC Test");
+		this.gameObject.transform.parent = GameObject.Find ("ScoreBoard(Clone)/Entries").transform;
+		this.gameObject.name = playerName;
+		this.gameObject.transform.FindChild ("Username").GetComponent<Text> ().text = playerName;
+	}
+
+	[RPC]
+	void ChangeCarName(string playerName){
+		Debug.Log ("RPC Test");
+		this.gameObject.name = playerName;
+	}
+
+
+	[RPC]
+	void UpdateScoreBoard(string scoremanager){
+		ScoreManager SM = this.GetComponent (scoremanager) as ScoreManager;
+		string[] names = SM.GetPlayerNames ();
+		foreach(string name in names) {
+			if (transform.FindChild (name) != null){
+				GameObject go = transform.FindChild(name).gameObject;
+				go.transform.Find ("Username").GetComponent<Text>().text = name;
+				go.transform.Find ("Bumps").GetComponent<Text>().text = SM.GetScore (name,"Bumps").ToString();
+				go.transform.Find ("Falls").GetComponent<Text>().text = SM.GetScore (name,"Falls").ToString();
+			}
+			else{
+				continue;
+			}
+		}
+	}
+
+
+
 }

@@ -12,7 +12,8 @@ public class menuScript : MonoBehaviour {
 	public Canvas EndOfGameMenu;
 	public Canvas PlayerNameMenu;
 	public GameObject Manager;
-	public Canvas ScoreBoard;
+	public GameObject ScoreBoard;
+
 	private NetworkManager networkManager;
 	public GameObject TimeLimit; 
 	private InputField nameInputField = null;
@@ -30,14 +31,15 @@ public class menuScript : MonoBehaviour {
 		EndOfGameMenu.enabled = false;
 		controlsMenu.enabled = false;
 		chooseCarMenu.enabled = false;
-		ScoreBoard.enabled = false;
 		PlayerNameMenu.enabled = false;
 		TimeLimit.active = false;
 	}
 	public void Update(){
-		if (Input.GetKey(KeyCode.Escape)) { inGameMenu.enabled = true; }
-		if (Input.GetKeyDown(KeyCode.Tab)) {ScoreBoard.enabled = true;}
-		if (Input.GetKeyUp(KeyCode.Tab)) {ScoreBoard.enabled = false;}
+		if (Input.GetKey (KeyCode.Escape)) {
+			inGameMenu.enabled = true;
+		}
+		if (Input.GetKeyDown(KeyCode.Tab)) {ScoreBoard.GetComponent<CanvasGroup>().alpha = 1;}
+		if (Input.GetKeyUp(KeyCode.Tab)) {ScoreBoard.GetComponent<CanvasGroup>().alpha = 0;}
 	}
 
 	public void ExitPress(){
@@ -90,6 +92,7 @@ public class menuScript : MonoBehaviour {
 	}
 
 	public void ChooseName(){
+			networkManager.playerName = PlayerNameMenu.GetComponentInChildren<InputField> ().text;
 			PlayerNameMenu.enabled = false;
 			quitMenu.enabled = false;
 			EndOfGameMenu.enabled = false;
